@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .file-input-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .view-file-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #selectedFileContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>File Explorer</h1>
+    </header>
+
+    <section>
+        <div class="file-input-container">
+            <form action="/select_file" method="post" enctype="multipart/form-data">
+                <label for="fileInput">Select a file:</label>
+                <input type="file" id="fileInput" name="file" style="display: none;" onchange="this.form.submit()">
+                <button type="button" class="view-file-button" onclick="document.getElementById('fileInput').click()">Browse</button>
+            </form>
+        </div>
+
+        {% if selected_file %}
+        <div id="selectedFileContainer">
+            <p>Selected File:</p>
+            <p>Name: {{ selected_file.info.name }}</p>
+            <p>Size: {{ selected_file.info.size }} bytes</p>
+            {% if selected_file.is_pdf %}
+                <p>File Type: PDF</p>
+                <a class="pdf-link" href="{{ url_for('static', filename='uploads/' + selected_file.info.name) }}" target="_blank">View PDF</a>
+            {% else %}
+                <p>File Type: {{ selected_file.info.extension }}</p>
+                <!-- other potential file types -->
+        {% endif %}
+    </div>
+{% endif %}
+    </section>
+</body>
+</html>

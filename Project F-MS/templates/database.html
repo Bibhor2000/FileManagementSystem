@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #2c3e50; 
+            color: #ecf0f1; 
+        }
+
+        header {
+            background-color: #3498db;
+            color: #ecf0f1; 
+            padding: 1rem;
+            text-align: center;
+        }
+
+        section {
+            margin: 2rem;
+        }
+
+        .file {
+            color: #ecf0f1; 
+        }
+
+        .button {
+            background-color: #e74c3c; 
+            color: #ecf0f1; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="title is-1">Upload Files</h1>
+    </header>
+
+    <section>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label class="label" for="file">Choose a file:</label>
+            <div class="file is-primary has-name">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="file" id="file" required>
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                            Choose a file…
+                        </span>
+                    </span>
+                    <span class="file-name">
+                        File name
+                    </span>
+                </label>
+            </div>
+            <br>
+            <button class="button is-danger" type="submit">Upload</button>
+        </form>
+    </section>
+</body>
+</html>
