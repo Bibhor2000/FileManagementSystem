@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import Flask, render_template, request, send_from_directory
 
 app = Flask(__name__, static_url_path='/static')
+app.config['uploads'] = 'C:\\Users\\bibho\\Desktop\\Github\\FileManagementSystem\\Project F-MS\\static\\storage'
 
 @app.route('/')
 def loading_screen():
@@ -22,7 +23,7 @@ def upload():
             return render_template('database.html', error='No selected file')
 
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        upload_folder = os.path.join(desktop_path, 'uploads', datetime.now().strftime('%Y%m%d%H%M%S'))
+        upload_folder = os.path.join(desktop_path, 'storage', datetime.now().strftime('%Y%m%d%H%M%S'))
 
         os.makedirs(upload_folder, exist_ok=True)
         file.save(os.path.join(upload_folder, file.filename))
@@ -33,6 +34,10 @@ def upload():
 @app.route('/OS')
 def file_explorer():
     return render_template('os.html')
+
+@app.route('/serve_uploaded_file/<filename>')
+def serve_uploaded_file(filename):
+    return send_from_directory(app.config['uploads'], filename)
 
 @app.route('/select_file', methods=['POST'])
 def select_file():
@@ -48,19 +53,25 @@ def select_file():
         if file_info['extension'] == 'pdf':
             selected_file = {
                 'info': file_info,
-                'is_pdf': True
+                'is_pdf': True,
+                'is_image': False
             }
+        elif file_info['extension'] in ['jpg', 'jpeg', 'png', 'gif']:
+            selected_file = {
+                'info': file_info,
+                'is_pdf': False,
+                'is_image': True
+            }
+            file.save(os.path.join(app.config['uploads'], file_info['name']))  # Save the file
+
         else:
             selected_file = {
                 'info': file_info,
-                'is_pdf': False
+                'is_pdf': False,
+                'is_image': False
             }
 
     return render_template('os.html', selected_file=selected_file)
-
-@app.route('/Files')
-def settings():
-    return render_template('files.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

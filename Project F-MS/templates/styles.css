@@ -1,0 +1,44 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #3498db;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+section {
+    padding: 20px;
+    text-align: center;
+}
+
+.file-input-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.view-file-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#selectedFileContainer {
+    margin-top: 20px;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 100%; 
+}

@@ -25,6 +25,11 @@
         #selectedFileContainer {
             margin-top: 20px;
         }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 100%; 
+        }
     </style>
 </head>
 <body>
@@ -42,19 +47,22 @@
         </div>
 
         {% if selected_file %}
-        <div id="selectedFileContainer">
-            <p>Selected File:</p>
-            <p>Name: {{ selected_file.info.name }}</p>
-            <p>Size: {{ selected_file.info.size }} bytes</p>
-            {% if selected_file.is_pdf %}
-                <p>File Type: PDF</p>
-                <a class="pdf-link" href="{{ url_for('static', filename='uploads/' + selected_file.info.name) }}" target="_blank">View PDF</a>
-            {% else %}
-                <p>File Type: {{ selected_file.info.extension }}</p>
-                <!-- other potential file types -->
+            <div id="selectedFileContainer">
+                <p>Selected File:</p>
+                <p>Name: {{ selected_file.info.name }}</p>
+                <p>Size: {{ selected_file.info.size }} bytes</p>
+                {% if selected_file.is_pdf %}
+                    <p>File Type: PDF</p>
+                    <a class="pdf-link" href="{{ url_for('static', filename='storage/' + selected_file.info.name) }}" target="_blank">View PDF</a>
+                {% elif selected_file.is_image %}
+                    <p>File Type: Image</p>
+                    <img class="image-viewer" src="{{ url_for('serve_uploaded_file', filename=selected_file.info.name) }}" alt="Image">
+                {% else %}
+                    <p>File Type: {{ selected_file.info.extension }}</p>
+                    <!-- other potential file types -->
+                {% endif %}
+            </div>
         {% endif %}
-    </div>
-{% endif %}
     </section>
 </body>
 </html>
