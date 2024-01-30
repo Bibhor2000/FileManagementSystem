@@ -33,12 +33,16 @@
         .view-file-button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #3498db;
+            background-color: 	#808080;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+        }
+
+        .view-file-button:hover {
+            background-color: #708090;
         }
 
         #selectedFileContainer {
@@ -57,6 +61,20 @@
             max-width: 100%;
             max-height: 500px; 
             margin-top: 10px;
+        }
+
+        #fileList {
+            margin-top: 20px;
+            background-color: #333; 
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .file-link {
+            color: #fff;
+            display: block;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -91,6 +109,14 @@
                 {% endif %}
             </div>
         {% endif %}
+
+        <div id="fileList">
+            <h2>Stored Files</h2>
+            {% for file_name in stored_files %}
+                <a class="file-link" href="{{ url_for('serve_uploaded_file', filename=file_name) }}" target="_blank">{{ file_name }}</a>
+            {% endfor %}
+        </div>
+
     </section>
 </body>
 </html>

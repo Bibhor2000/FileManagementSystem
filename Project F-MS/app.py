@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, send_from_directory
 
 app = Flask(__name__, static_url_path='/static')
 app.config['uploads'] = 'C:\\Users\\bibho\\Desktop\\Github\\FileManagementSystem\\Project F-MS\\static\\storage'
+storage_path = app.config['uploads']
 
 @app.route('/')
 def loading_screen():
@@ -33,7 +34,8 @@ def upload():
 
 @app.route('/OS')
 def file_explorer():
-    return render_template('os.html')
+    stored_files = os.listdir(storage_path)
+    return render_template('os.html', stored_files=stored_files)
 
 @app.route('/serve_uploaded_file/<filename>')
 def serve_uploaded_file(filename):
