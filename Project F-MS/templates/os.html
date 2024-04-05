@@ -181,16 +181,13 @@
                 {% endfor %}
             </div>
         </div>
-
-        <form action="/search_files" method="post">
-        <input type="text" id="query" name="query" placeholder="Search files...">
-        <button type="submit" class="view-file-button">Search</button>
+        <form action="/search_files" method="post"></form>
         </form>
 
         <div id="searchResults">
-        {% for file_name in stored_files %}
-            <p>{{ file_name }}</p>
-        {% endfor %}
+            {% for file_name in stored_files %}
+                <p>{{ file_name }}</p>
+            {% endfor %}
         </div>
     </section>
 </body>
