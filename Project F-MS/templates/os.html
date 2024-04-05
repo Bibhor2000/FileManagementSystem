@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Explorer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -76,6 +77,12 @@
             display: block;
             margin-bottom: 10px;
         }
+
+        .model-viewer {
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -86,7 +93,7 @@
     <section>
         <div class="file-input-container">
             <form action="/select_file" method="post" enctype="multipart/form-data">
-                <label for="fileInput">Select a file:</label>
+                <label for="fileInput">Upload a file:</label>
                 <input type="file" id="fileInput" name="file" style="display: none;" onchange="this.form.submit()">
                 <button type="button" class="view-file-button" onclick="document.getElementById('fileInput').click()">Browse</button>
             </form>
@@ -103,6 +110,16 @@
                 {% elif selected_file.is_image %}
                     <p>File Type: Image</p>
                     <img class="image-viewer" src="{{ url_for('serve_uploaded_file', filename=selected_file.info.name) }}" alt="Image">
+                {% elif selected_file.is_glb %}
+                    <p>File Type: 3D Model (GLB)</p>
+                    <div class="model-viewer">
+                        <!-- <model-viewer 
+                            src="{{ url_for('static', filename='storage/SLS.glb') }}"
+                            shadow-intensity="1" 
+                            camera-controls 
+                            touch-action="pan-y">
+                        </model-viewer> -->
+                    </div>
                 {% else %}
                     <p>File Type: {{ selected_file.info.extension }}</p>
                     <!-- other potential file types -->
@@ -113,10 +130,20 @@
         <div id="fileList">
             <h2>Stored Files</h2>
             {% for file_name in stored_files %}
-                <a class="file-link" href="{{ url_for('serve_uploaded_file', filename=file_name) }}" target="_blank">{{ file_name }}</a>
+                <a class="file-link" href="{{ url_for('serve_uploaded_file', filename=file_name) }}" target="_blank">{{ file_name }} <a href="/delete_file/{{ file_name }}">Delete</a></a>
             {% endfor %}
         </div>
 
+        <form action="/search_files" method="post">
+        <input type="text" id="query" name="query" placeholder="Search files...">
+        <button type="submit" class="view-file-button">Search</button>
+        </form>
+
+        <div id="searchResults">
+        {% for file_name in stored_files %}
+            <p>{{ file_name }}</p>
+        {% endfor %}
+        </div>
     </section>
 </body>
 </html>
